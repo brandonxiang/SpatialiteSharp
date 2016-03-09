@@ -24,9 +24,11 @@ namespace SpatialiteSharp
 				//Need to work out where the file is and add it to the path so it can load all the other dlls too
 				if (!_haveSetPath)
 				{
-					var spatialitePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), (Environment.Is64BitProcess ? "x64" : "x86"), "spatialite");
-					
-					Environment.SetEnvironmentVariable("PATH", spatialitePath + ";" + Environment.GetEnvironmentVariable("PATH"));
+				        var dllPath = AppDomain.CurrentDomain.BaseDirectory;
+                                        var spatialitePath =Path.Combine(dllPath, Environment.Is64BitProcess ? "x64" : "x86", "spatialite") + ";";
+                                        var paths = Environment.GetEnvironmentVariable("PATH");
+
+                                        Environment.SetEnvironmentVariable("PATH", spatialitePath + paths);
 
 					_haveSetPath = true;
 				}
